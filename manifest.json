@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "Qwant Lite",
+    "version": "1.0.2",
+    "description": "Qwant Lite: the search engine that respects your privacy.",
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
+    "browser_action": {
+        "browser_style": true,
+        "default_icon": "img/icon48.png",
+        "default_title": "Qwant Lite"
+    },
+    "chrome_settings_overrides": {
+        "homepage": "https://lite.qwant.com/?client=ext-firefox-hp",
+        "search_provider": {
+            "name": "Qwant Lite Extension",
+            "keyword": "ql",
+            "search_url": "https://lite.qwant.com/?q={searchTerms}&client=ext-firefox-sb",
+            "favicon_url": "https://lite.qwant.com/favicon.ico",
+            "suggest_url": "https://api.qwant.com/api/suggest/?q={searchTerms}&client=opensearch",
+            "is_default": true
+        }
+    },
+    "omnibox": {
+        "keyword": "ql"
+    },
+	"permissions": [
+		"*://*.qwant.com/*",
+		"webRequest"
+	]
+}
