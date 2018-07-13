@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Qwant Lite",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Qwant Lite: the search engine that respects your privacy",
     "icons": {
         "16": "img/icon16.png",
@@ -29,5 +29,15 @@
 	"permissions": [
 		"*://*.qwant.com/*",
 		"webRequest"
-	]
+	],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://lite.qwant.com/*"
+            ],
+            "css": [
+                "css/qwant.css"
+            ]
+        }
+    ]
 }
