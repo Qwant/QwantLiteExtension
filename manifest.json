@@ -8,11 +8,6 @@
         "48": "img/icon48.png",
         "128": "img/icon128.png"
     },
-    "browser_action": {
-        "browser_style": true,
-        "default_icon": "img/icon48.png",
-        "default_title": "Qwant Lite"
-    },
     "chrome_settings_overrides": {
         "search_provider": {
             "name": "Qwant Lite Extension",
