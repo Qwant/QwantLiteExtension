@@ -4,7 +4,12 @@ Qwant Lite Extension sets lite.qwant.com as your default search engine
 
 ## Firefox 
 
-[Qwant Lite](https://addons.mozilla.org/fr/developers/addons) Mozilla Firefox Addon
+[Qwant Lite - Mozilla Firefox Addon](https://addons.mozilla.org/en-US/firefox/addon/qwant-lite/)
+
+
+## Chromium (Chrome, Brave, Edge, Opera, etc...) 
+
+[Qwant Lite - Chrome Web Store](https://chrome.google.com/webstore/detail/qwant-lite/oopikhdfcpnmlaigdhlkinnfbbdcppna) 
 
 
 ## License
