@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Qwant Lite",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "default_locale": "en",
   "description": "__MSG_description__",
   "icons": {
@@ -34,5 +34,16 @@
         "css/qwant.css"
       ]
     }
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "storage",
+    "https://lite.qwant.com/*",
+    "webRequest",
+    "webRequestBlocking"
   ]
 }
