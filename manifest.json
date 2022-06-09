@@ -42,8 +42,8 @@
   },
   "permissions": [
     "storage",
-    "https://lite.qwant.com/*",
     "webRequest",
-    "webRequestBlocking"
+    "webRequestBlocking",
+    "https://lite.qwant.com/*"
   ]
 }
