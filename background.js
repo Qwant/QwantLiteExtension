@@ -1,6 +1,8 @@
 
 let previousURL = null
 
+const SETTINGS_KEY = 'ext_set'
+
 const deleteEmpty = (obj) => {
     Object.keys(obj).forEach(key => {
         if (obj[key] === undefined) {
@@ -10,22 +12,12 @@ const deleteEmpty = (obj) => {
     return obj
 }
 
-
 const getParams = (url) => {
-    const params = {
-        a: undefined,
-        b: undefined,
-        l: undefined,
-        locale: undefined,
-        q: undefined,
-        s: undefined,
-        ta: undefined,
-        theme: undefined,
-    }
+    const params = {}
 
     const urlParams = new URLSearchParams(url.replace('https://lite.qwant.com/', '').replace('https://lite.qwant.com/settings', ''));
-    const entries = urlParams.entries();
 
+    const entries = urlParams.entries();
     for (const entry of entries) {
         params[entry[0]] = entry[1]
     }
@@ -68,7 +60,7 @@ const getSearchQuery = async (url) => {
     const query = new URLSearchParams({
         q,
         ...result,
-        qlite_settings: "1"
+        [SETTINGS_KEY]: "1"
     }).toString()
 
     return query
@@ -83,13 +75,11 @@ browser.webRequest.onBeforeRequest.addListener(
         // User save new settings
         if (previousURL && previousURL.startsWith('https://lite.qwant.com/settings')) {
             saveSettings(info.url)
-        } else if (isSearchQuery(info)) {
-            if (!queryParams.qlite_settings) {
-                const searchParams = await getSearchQuery(info.url)
-                if (searchParams) {
-                    return {
-                        redirectUrl: "https://lite.qwant.com/?" + searchParams
-                    }
+        } else if (!!queryParams.q && !queryParams[SETTINGS_KEY]) {
+            const searchParams = await getSearchQuery(info.url)
+            if (searchParams) {
+                return {
+                    redirectUrl: "https://lite.qwant.com/?" + searchParams
                 }
             }
         }
