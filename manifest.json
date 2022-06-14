@@ -35,8 +35,7 @@
   ],
   "permissions": [
     "webRequest",
-    "declarativeNetRequest",
-    "declarativeNetRequestFeedback"
+    "declarativeNetRequest"
   ],
   "background": {
     "service_worker": "background.js"

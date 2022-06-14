@@ -1,6 +1,5 @@
 let previousURL = null;
 
-const SETTINGS_KEY = "ext_set";
 const KEYS = ['l', 'locale', 's', 'a', 'b', 'theme', 'ta']
 
 const getRandomInt = (min, max) => {
@@ -35,6 +34,34 @@ const getParams = (url) => {
     return deleteEmpty(params);
 };
 
+const addRedirectRule = async (settings) => {
+    const addOrReplaceParams = Object.entries(settings).map(([key, value]) => { key, value })
+
+    const rules = await chrome.declarativeNetRequest.getDynamicRules()
+    const ids = rules.map((rule) => rule.id)
+
+    chrome.declarativeNetRequest.updateDynamicRules({
+        removeRuleIds: ids,
+        addRules: [{
+            id: getRandomInt(1, 255),
+            priority: 1,
+            action: {
+                type: "redirect",
+                redirect: {
+                    transform: {
+                        queryTransform: {
+                            addOrReplaceParams
+                        }
+                    }
+                }
+            },
+            condition: {
+                urlFilter: "lite.qwant.com",
+                resourceTypes: ["main_frame"]
+            }
+        }],
+    })
+}
 
 chrome.webRequest.onBeforeRequest.addListener(async (info) => {
     if (info.method !== "GET" || info.type !== "main_frame") return;
@@ -43,7 +70,6 @@ chrome.webRequest.onBeforeRequest.addListener(async (info) => {
         previousURL.startsWith("https://lite.qwant.com/settings")
     ) {
         const settings = getParams(info.url);
-
         delete settings.q;
         delete settings["settings?"];
         delete settings["settings?q"];
@@ -57,34 +83,4 @@ chrome.webRequest.onBeforeRequest.addListener(async (info) => {
 })
 
 
-const addRedirectRule = async (settings) => {
-    const addOrReplaceParams = []
-    Object.keys(settings).forEach(key => {
-        addOrReplaceParams.push({ "key": key, value: settings[key] })
-    })
 
-    const rules = await chrome.declarativeNetRequest.getDynamicRules()
-    const ids = rules.map((rule) => rule.id)
-
-    chrome.declarativeNetRequest.updateDynamicRules({
-        addRules: [{
-            id: getRandomInt(1, 255),
-            priority: 1,
-            action: {
-                type: "redirect",
-                redirect: {
-                    "transform": {
-                        "queryTransform": {
-                            "addOrReplaceParams": addOrReplaceParams
-                        }
-                    }
-                }
-            },
-            condition: {
-                urlFilter: "lite.qwant.com",
-                resourceTypes: ["main_frame", "sub_frame", "other"]
-            }
-        }],
-        removeRuleIds: ids,
-    })
-}
