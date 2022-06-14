@@ -29,5 +29,16 @@
         "css/qwant.css"
       ]
     }
-  ]
+  ],
+  "host_permissions": [
+    "https://lite.qwant.com/*"
+  ],
+  "permissions": [
+    "webRequest",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
