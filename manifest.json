@@ -34,5 +34,16 @@
         "css/qwant.css"
       ]
     }
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "https://lite.qwant.com/*"
   ]
 }
