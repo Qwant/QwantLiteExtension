@@ -35,7 +35,11 @@ const getParams = (url) => {
 };
 
 const addRedirectRule = async (settings) => {
-    const addOrReplaceParams = Object.entries(settings).map(([key, value]) => { key, value })
+    const addOrReplaceParams = Object.entries(settings).map(([key, value]) => {
+        return { key, value }
+    })
+
+    if (addOrReplaceParams == null) return
 
     const rules = await chrome.declarativeNetRequest.getDynamicRules()
     const ids = rules.map((rule) => rule.id)
@@ -60,7 +64,7 @@ const addRedirectRule = async (settings) => {
                 resourceTypes: ["main_frame"]
             }
         }],
-    })
+    }, () => { })
 }
 
 chrome.webRequest.onBeforeRequest.addListener(async (info) => {
