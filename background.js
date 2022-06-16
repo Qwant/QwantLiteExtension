@@ -113,3 +113,11 @@ browser.webRequest.onBeforeRequest.addListener(
     },
     ["blocking"]
 );
+
+
+
+browser.browserAction.onClicked.addListener(() => {
+    browser.tabs.create({
+        "url": "https://lite.qwant.com"
+    });
+})
