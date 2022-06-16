@@ -9,7 +9,11 @@ Qwant Lite Extension sets lite.qwant.com as your default search engine
 
 ## Chromium (Chrome, Brave, Edge, Opera, etc...) 
 
-[Qwant Lite - Chrome Web Store](https://chrome.google.com/webstore/detail/qwant-lite/oopikhdfcpnmlaigdhlkinnfbbdcppna) 
+[Qwant Lite - Chrome Web Store](https://chrome.google.com/webstore/detail/qwant-lite/oopikhdfcpnmlaigdhlkinnfbbdcppna)
+
+## Microsoft Edge
+
+[Qwant Lite - Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/qwant-lite/ffdegpgakamiamabnaboohbhhndinjcc)
 
 
 ## License
