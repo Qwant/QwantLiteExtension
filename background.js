@@ -42,7 +42,7 @@ const saveSettings = (url) => {
     return settings;
 };
 
-const getSearchQuery = async (url) => {
+const getSearchQuery = async ({ url, ignoreQuery }) => {
     const { q, ...params } = getParams(url);
     const { settings } = await browser.storage.local.get("settings");
 
@@ -66,9 +66,13 @@ const getSearchQuery = async (url) => {
         q,
         ...result,
         [SETTINGS_KEY]: "1"
-    }).toString();
+    });
 
-    return query;
+    if (ignoreQuery) {
+        query.delete('q')
+    }
+
+    return query.toString();
 };
 
 browser.webRequest.onBeforeRequest.addListener(
@@ -80,20 +84,40 @@ browser.webRequest.onBeforeRequest.addListener(
             previousURL &&
             previousURL.startsWith("https://lite.qwant.com/settings")
         ) {
+            // Save settings from URL parameters after redirect from "/settings"
             saveSettings(info.url);
         } else if (!!queryParams.q && !queryParams[SETTINGS_KEY]) {
-            const searchParams = await getSearchQuery(info.url);
-
+            const searchParams = await getSearchQuery({ url: info.url, ignoreQuery: false });
             if (searchParams) {
                 return {
                     redirectUrl: "https://lite.qwant.com/?" + searchParams
                 };
             }
+        } else if (info.url === 'https://lite.qwant.com' || info.url === 'https://lite.qwant.com/') {
+            // Redirect on home-page to apply the theme
+            const searchParams = await getSearchQuery({ url: info.url, ignoreQuery: true });
+            if (searchParams) {
+                return {
+                    redirectUrl: "https://lite.qwant.com/?" + searchParams
+                };
+            }
+
         }
         previousURL = info.url;
+        // Not sure if we should return here.
+        // Seems like the safest return we can do.
+        return { cancel: false };
     },
     {
         urls: ["https://lite.qwant.com/*"]
     },
     ["blocking"]
 );
+
+
+
+browser.browserAction.onClicked.addListener(() => {
+    browser.tabs.create({
+        "url": "https://lite.qwant.com"
+    });
+})
