@@ -1,13 +1,6 @@
 let previousURL = null;
-
 const KEYS = ['l', 'locale', 's', 'a', 'b', 'theme', 'ta']
-
-const getRandomInt = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min);
-}
-
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
 const deleteEmpty = (obj) => {
     Object.keys(obj).forEach((key) => {
@@ -34,7 +27,7 @@ const getParams = (url) => {
     return deleteEmpty(params);
 };
 
-const addRedirectRule = async (settings) => {
+const addRedirectRule = async (settings, tabId) => {
     const addOrReplaceParams = Object.entries(settings).map(([key, value]) => {
         return { key, value }
     })
@@ -64,27 +57,35 @@ const addRedirectRule = async (settings) => {
                 resourceTypes: ["main_frame"]
             }
         }],
-    }, () => { })
+    }, () => {
+        chrome.tabs.reload(tabId, {
+            bypassCache: true
+        })
+    })
 }
 
 chrome.webRequest.onBeforeRequest.addListener(async (info) => {
     if (info.method !== "GET" || info.type !== "main_frame") return;
     if (
         previousURL &&
-        previousURL.startsWith("https://lite.qwant.com/settings")
+        previousURL.startsWith("https://lite.qwant.com/settings") &&
+        !info.url.startsWith("https://lite.qwant.com/settings")
     ) {
         const settings = getParams(info.url);
         delete settings.q;
         delete settings["settings?"];
         delete settings["settings?q"];
 
-        addRedirectRule(settings)
+        addRedirectRule(settings, info.tabId)
     }
     previousURL = info.url;
-
 }, {
     urls: ["https://lite.qwant.com/*"]
 })
 
 
-
+chrome.action.onClicked.addListener(() => {
+    chrome.tabs.create({
+        "url": "https://lite.qwant.com"
+    });
+})
