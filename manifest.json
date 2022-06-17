@@ -9,6 +9,14 @@
     "38": "img/icon-38.png",
     "128": "img/icon-128.png"
   },
+  "action": {
+    "default_icon": {
+      "16": "img/icon-16.png",
+      "38": "img/icon-38.png",
+      "128": "img/icon-128.png"
+    },
+    "default_title": "Qwant Lite"
+  },
   "chrome_settings_overrides": {
     "search_provider": {
       "name": "Qwant Lite",
@@ -29,5 +37,15 @@
         "css/qwant.css"
       ]
     }
-  ]
+  ],
+  "host_permissions": [
+    "https://lite.qwant.com/*"
+  ],
+  "permissions": [
+    "webRequest",
+    "declarativeNetRequest"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
